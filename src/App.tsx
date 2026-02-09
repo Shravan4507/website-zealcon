@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Grainient from './components/background/grainient'
 import Navbar from './components/navbar/Navbar'
 import Footer from './components/footer/Footer'
@@ -9,6 +9,7 @@ import Sponsors from './pages/sponsors/sponsors'
 import Team from './pages/team/team'
 import Join from './pages/join/join'
 import Contact from './pages/contact/contact'
+import Register from './pages/register/register'
 import Login from './components/login/login'
 import { PrivacyPolicy, TermsOfService } from './components/policy/policy'
 import UserDashboard from './user/user-dashboard/user-dashboard'
@@ -18,7 +19,7 @@ import './App.css'
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <ToastProvider>
         <div className="app">
           <div className="app-background">
@@ -64,7 +65,9 @@ function App() {
                 <Route path="/user-signup" element={<UserSignup />} />
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="/terms" element={<TermsOfService />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/user-dashboard" element={<UserDashboard />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </main>
             <Footer />

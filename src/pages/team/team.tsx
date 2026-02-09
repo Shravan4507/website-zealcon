@@ -4,14 +4,21 @@ import './team.css'
 const ALL_MEMBERS = [
     // Core Leadership
     {
-        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300&h=300&auto=format&fit=crop',
-        title: 'Aryan Sharma',
-        subtitle: 'Festival Convener',
+        image: 'src/assets/members/Shravan G.png',
+        title: 'Shrvan',
+        subtitle: 'Event Lead',
         location: 'Core Leadership',
-        handle: '@aryan_sharma',
+        handle: '@shravan45x',
+        description: 'Visionary leader driving the strategic direction of Zealcon \'26. Passionate about creating a platform where technology meets creativity. Leading over 100+ volunteers to deliver a world-class experience.',
         borderColor: '#5227FF',
         gradient: 'linear-gradient(145deg, #5227FF, #000)',
-        url: '#'
+        url: 'https://instagram.com/shravan45x',
+        socials: {
+            instagram: 'https://instagram.com/shravan45x',
+            linkedin: 'https://www.linkedin.com/in/shravan45x',
+            twitter: 'https://x.com/shravan45z',
+            github: 'https://github.com/Shravan4507'
+        }
     },
     {
         image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=300&h=300&auto=format&fit=crop',
@@ -19,9 +26,15 @@ const ALL_MEMBERS = [
         subtitle: 'Technical Head',
         location: 'Core Leadership',
         handle: '@sanya_tech',
+        description: 'Engineering wizard managing all technical infrastructures. Dedicated to delivering a seamless digital experience for all festival participants. Architected the core event handling systems.',
         borderColor: '#d9ff00',
         gradient: 'linear-gradient(180deg, #d9ff00, #000)',
-        url: '#'
+        url: 'https://github.com/Shravan4507',
+        socials: {
+            linkedin: '#',
+            github: 'https://github.com/Shravan4507',
+            instagram: '#'
+        }
     },
     {
         image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300&h=300&auto=format&fit=crop',
@@ -29,9 +42,14 @@ const ALL_MEMBERS = [
         subtitle: 'Management Lead',
         location: 'Core Leadership',
         handle: '@rohan_verma',
+        description: 'Organizational expert ensuring coordination between all departments. Focused on operational excellence and resource optimization. Streamlined the internal logistics for the entire festival cycle.',
         borderColor: '#5227FF',
         gradient: 'linear-gradient(145deg, #5227FF, #000)',
-        url: '#'
+        url: 'https://linkedin.com/',
+        socials: {
+            linkedin: '#',
+            twitter: '#'
+        }
     },
     // Technical & Design
     {
@@ -40,9 +58,14 @@ const ALL_MEMBERS = [
         subtitle: 'Full Stack Developer',
         location: 'Technical & Design',
         handle: '@ishaan_dev',
+        description: 'Building the future of the web, one line of code at a time. Expert in modern React architectures and scalable backend systems. Passionate about Open Source contributions.',
         borderColor: '#d9ff00',
         gradient: 'linear-gradient(210deg, #d9ff00, #000)',
-        url: '#'
+        url: 'https://github.com/Shravan4507',
+        socials: {
+            github: 'https://github.com/Shravan4507',
+            linkedin: '#'
+        }
     },
     {
         image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300&h=300&auto=format&fit=crop',
@@ -50,9 +73,14 @@ const ALL_MEMBERS = [
         subtitle: 'Chief Designer',
         location: 'Technical & Design',
         handle: '@ananya_design',
+        description: 'Crafting the visual identity of Zealcon. Bringing aesthetic elegance and user-centric design to every digital touchpoint. Created the unique grainient branding for this year.',
         borderColor: '#5227FF',
         gradient: 'linear-gradient(165deg, #5227FF, #000)',
-        url: '#'
+        url: 'https://instagram.com/ananya_design',
+        socials: {
+            instagram: '#',
+            linkedin: '#'
+        }
     },
     {
         image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=300&h=300&auto=format&fit=crop',
@@ -60,9 +88,14 @@ const ALL_MEMBERS = [
         subtitle: 'UI/UX Lead',
         location: 'Technical & Design',
         handle: '@vikram_ux',
+        description: 'Specializing in creating intuitive and engaging user journeys. Bridging the gap between complex technology and human interaction. Focused on accessibility and performance.',
         borderColor: '#d9ff00',
         gradient: 'linear-gradient(195deg, #d9ff00, #000)',
-        url: '#'
+        url: 'https://linkedin.com/',
+        socials: {
+            linkedin: '#',
+            twitter: '#'
+        }
     },
     // Marketing & PR
     {
@@ -71,9 +104,14 @@ const ALL_MEMBERS = [
         subtitle: 'PR Coordinator',
         location: 'Marketing & PR',
         handle: '@kritika_pr',
+        description: 'Voice of the festival, managing external communications and media relations. Dedicated to building strong brand authority.',
         borderColor: '#5227FF',
         gradient: 'linear-gradient(225deg, #5227FF, #000)',
-        url: '#'
+        url: 'https://linkedin.com/',
+        socials: {
+            linkedin: '#',
+            twitter: '#'
+        }
     },
     {
         image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=300&h=300&auto=format&fit=crop',
@@ -81,9 +119,14 @@ const ALL_MEMBERS = [
         subtitle: 'Marketing Head',
         location: 'Marketing & PR',
         handle: '@sahil_mkt',
+        description: 'Strategic marketer expanding the reach of Zealcon across the nation. Expertise in digital campaigns and audience engagement.',
         borderColor: '#d9ff00',
         gradient: 'linear-gradient(135deg, #d9ff00, #000)',
-        url: '#'
+        url: 'https://linkedin.com/',
+        socials: {
+            linkedin: '#',
+            twitter: '#'
+        }
     }
 ]
 

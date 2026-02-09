@@ -1,4 +1,5 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import './ChromaGrid.css';
 
@@ -8,9 +9,18 @@ export interface ChromaItem {
     subtitle: string;
     handle?: string;
     location?: string;
+    description?: string;
     borderColor?: string;
     gradient?: string;
     url?: string;
+    prizePool?: string;
+    isFlagship?: boolean;
+    socials?: {
+        github?: string;
+        linkedin?: string;
+        twitter?: string;
+        instagram?: string;
+    };
 }
 
 export interface ChromaGridProps {
@@ -26,6 +36,23 @@ export interface ChromaGridProps {
 
 type SetterFn = (v: number | string) => void;
 
+const SocialIcon = ({ type }: { type: string }) => {
+    switch (type) {
+        case 'github':
+            return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>;
+        case 'linkedin':
+            return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>;
+        case 'twitter':
+            return <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>;
+        case 'instagram':
+            return <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>;
+        case 'star':
+            return <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>;
+        default:
+            return null;
+    }
+};
+
 export const ChromaGrid: React.FC<ChromaGridProps> = ({
     items,
     className = '',
@@ -38,67 +65,14 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
 }) => {
     const rootRef = useRef<HTMLDivElement>(null);
     const fadeRef = useRef<HTMLDivElement>(null);
+    const modalRef = useRef<HTMLDivElement>(null);
+    const modalContentRef = useRef<HTMLDivElement>(null);
     const setX = useRef<SetterFn | null>(null);
     const setY = useRef<SetterFn | null>(null);
     const pos = useRef({ x: 0, y: 0 });
+    const [selectedMember, setSelectedMember] = useState<ChromaItem | null>(null);
 
-    const demo: ChromaItem[] = [
-        {
-            image: 'https://i.pravatar.cc/300?img=8',
-            title: 'Alex Rivera',
-            subtitle: 'Full Stack Developer',
-            handle: '@alexrivera',
-            borderColor: '#4F46E5',
-            gradient: 'linear-gradient(145deg, #4F46E5, #000)',
-            url: 'https://github.com/'
-        },
-        {
-            image: 'https://i.pravatar.cc/300?img=11',
-            title: 'Jordan Chen',
-            subtitle: 'DevOps Engineer',
-            handle: '@jordanchen',
-            borderColor: '#10B981',
-            gradient: 'linear-gradient(210deg, #10B981, #000)',
-            url: 'https://linkedin.com/in/'
-        },
-        {
-            image: 'https://i.pravatar.cc/300?img=3',
-            title: 'Morgan Blake',
-            subtitle: 'UI/UX Designer',
-            handle: '@morganblake',
-            borderColor: '#F59E0B',
-            gradient: 'linear-gradient(165deg, #F59E0B, #000)',
-            url: 'https://dribbble.com/'
-        },
-        {
-            image: 'https://i.pravatar.cc/300?img=16',
-            title: 'Casey Park',
-            subtitle: 'Data Scientist',
-            handle: '@caseypark',
-            borderColor: '#EF4444',
-            gradient: 'linear-gradient(195deg, #EF4444, #000)',
-            url: 'https://kaggle.com/'
-        },
-        {
-            image: 'https://i.pravatar.cc/300?img=25',
-            title: 'Sam Kim',
-            subtitle: 'Mobile Developer',
-            handle: '@thesamkim',
-            borderColor: '#8B5CF6',
-            gradient: 'linear-gradient(225deg, #8B5CF6, #000)',
-            url: 'https://github.com/'
-        },
-        {
-            image: 'https://i.pravatar.cc/300?img=60',
-            title: 'Tyler Rodriguez',
-            subtitle: 'Cloud Architect',
-            handle: '@tylerrod',
-            borderColor: '#06B6D4',
-            gradient: 'linear-gradient(135deg, #06B6D4, #000)',
-            url: 'https://aws.amazon.com/'
-        }
-    ];
-    const data = items?.length ? items : demo;
+    const data = items || [];
 
     useEffect(() => {
         const el = rootRef.current;
@@ -126,13 +100,14 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
     };
 
     const handleMove = (e: React.PointerEvent) => {
-        if (!rootRef.current) return;
+        if (!rootRef.current || selectedMember) return;
         const r = rootRef.current.getBoundingClientRect();
         moveTo(e.clientX - r.left, e.clientY - r.top);
         gsap.to(fadeRef.current, { opacity: 0, duration: 0.25, overwrite: true });
     };
 
     const handleLeave = () => {
+        if (selectedMember) return;
         gsap.to(fadeRef.current, {
             opacity: 1,
             duration: fadeOut,
@@ -140,11 +115,30 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
         });
     };
 
-    const handleCardClick = (url?: string) => {
-        if (url) {
-            window.open(url, '_blank', 'noopener,noreferrer');
-        }
+    const handleCardClick = (member: ChromaItem) => {
+        setSelectedMember(member);
     };
+
+    const closePortal = () => {
+        const tl = gsap.timeline({
+            onComplete: () => setSelectedMember(null)
+        });
+        tl.to(modalContentRef.current, { scale: 0.9, opacity: 0, duration: 0.3, ease: 'power2.in' })
+            .to(modalRef.current, { opacity: 0, duration: 0.2 }, "-=0.2");
+    };
+
+    useEffect(() => {
+        if (selectedMember && modalRef.current && modalContentRef.current) {
+            gsap.fromTo(modalRef.current,
+                { opacity: 0 },
+                { opacity: 1, duration: 0.3 }
+            );
+            gsap.fromTo(modalContentRef.current,
+                { scale: 0.9, opacity: 0, y: 20 },
+                { scale: 1, opacity: 1, y: 0, duration: 0.5, ease: 'back.out(1.7)' }
+            );
+        }
+    }, [selectedMember]);
 
     const handleCardMove: React.MouseEventHandler<HTMLElement> = e => {
         const card = e.currentTarget as HTMLElement;
@@ -158,7 +152,7 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
     return (
         <div
             ref={rootRef}
-            className={`chroma-grid ${className}`}
+            className={`chroma-grid ${className} ${selectedMember ? 'modal-open' : ''}`}
             style={
                 {
                     '--r': `${radius}px`,
@@ -174,17 +168,19 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
                     key={i}
                     className="chroma-card"
                     onMouseMove={handleCardMove}
-                    onClick={() => handleCardClick(c.url)}
+                    onClick={() => handleCardClick(c)}
                     style={
                         {
                             '--card-border': c.borderColor || 'transparent',
                             '--card-gradient': c.gradient,
-                            cursor: c.url ? 'pointer' : 'default'
+                            cursor: 'pointer'
                         } as React.CSSProperties
                     }
                 >
                     <div className="chroma-img-wrapper">
+                        {c.isFlagship && <div className="flagship-badge">Flagship</div>}
                         <img src={c.image} alt={c.title} loading="lazy" />
+                        {c.prizePool && <div className="prize-tag">Prize: {c.prizePool}</div>}
                     </div>
                     <footer className="chroma-info">
                         <h3 className="name">{c.title}</h3>
@@ -196,6 +192,67 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
             ))}
             <div className="chroma-overlay" />
             <div ref={fadeRef} className="chroma-fade" />
+
+            {selectedMember && (
+                <div className="chroma-modal-overlay" ref={modalRef} onClick={closePortal}>
+                    <div className="chroma-modal-content" ref={modalContentRef} onClick={e => e.stopPropagation()}>
+                        <button className="close-btn" onClick={closePortal}>×</button>
+                        <div className="modal-main">
+                            <div className="modal-image">
+                                <img src={selectedMember.image} alt={selectedMember.title} />
+                            </div>
+                            <div className="modal-details">
+                                <div className="modal-header-top">
+                                    <span className="modal-loc">{selectedMember.location}</span>
+                                    {selectedMember.prizePool && <span className="modal-prize-pool">Pool: {selectedMember.prizePool}</span>}
+                                </div>
+                                <h2>{selectedMember.title}</h2>
+                                <div className="modal-meta">
+                                    <span className="modal-role">{selectedMember.subtitle}</span>
+                                    <span className="dot"></span>
+                                    {selectedMember.url ? (
+                                        <a href={selectedMember.url} target="_blank" rel="noopener noreferrer" className="modal-handle link">
+                                            {selectedMember.handle}
+                                        </a>
+                                    ) : (
+                                        <span className="modal-handle">{selectedMember.handle}</span>
+                                    )}
+                                </div>
+                                <p className="modal-desc">
+                                    {selectedMember.description}
+                                </p>
+                                <div className="modal-actions">
+                                    <Link to={`/register?comp=${encodeURIComponent(selectedMember.title)}`} className="register-btn">
+                                        Register Now
+                                    </Link>
+                                    <div className="modal-socials">
+                                        {selectedMember.socials?.linkedin && (
+                                            <a href={selectedMember.socials.linkedin} target="_blank" rel="noopener noreferrer" className="social-icon-btn" title="LinkedIn">
+                                                <SocialIcon type="linkedin" />
+                                            </a>
+                                        )}
+                                        {selectedMember.socials?.twitter && (
+                                            <a href={selectedMember.socials.twitter} target="_blank" rel="noopener noreferrer" className="social-icon-btn" title="X">
+                                                <SocialIcon type="twitter" />
+                                            </a>
+                                        )}
+                                        {selectedMember.socials?.instagram && (
+                                            <a href={selectedMember.socials.instagram} target="_blank" rel="noopener noreferrer" className="social-icon-btn" title="Instagram">
+                                                <SocialIcon type="instagram" />
+                                            </a>
+                                        )}
+                                        {selectedMember.socials?.github && (
+                                            <a href={selectedMember.socials.github} target="_blank" rel="noopener noreferrer" className="social-icon-btn gh" title="GitHub">
+                                                <SocialIcon type="github" />
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

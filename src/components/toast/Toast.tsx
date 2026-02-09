@@ -29,7 +29,7 @@ interface ToastItemProps extends Toast {
     onClose: (id: number) => void;
 }
 
-const ToastItem = ({ id, title, message, type, duration = 500000, onClose }: ToastItemProps) => {
+const ToastItem = ({ id, title, message, type, duration = 4000, onClose }: ToastItemProps) => {
     const [isClosing, setIsClosing] = useState(false);
 
     const handleClose = useCallback(() => {
