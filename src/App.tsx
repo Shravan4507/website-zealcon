@@ -13,6 +13,8 @@ import Register from './pages/register/register'
 import Login from './components/login/login'
 import { PrivacyPolicy, TermsOfService } from './components/policy/policy'
 import UserDashboard from './user/user-dashboard/user-dashboard'
+import AdminDashboard from './admin/admin-dashboard/admin-dashboard'
+import AdminSignup from './admin/admin-signup/admin-signup'
 import UserSignup from './user/user-signup/user-signup'
 import { ToastProvider } from './components/toast/Toast'
 import './App.css'
@@ -67,6 +69,8 @@ function App() {
                 <Route path="/terms" element={<TermsOfService />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/user-dashboard" element={<UserDashboard />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/admin-signup" element={<AdminSignup />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
               </Routes>
             </main>
